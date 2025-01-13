@@ -1,6 +1,6 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js'
 
-import { 
+import {
   getFirestore,
   collection,
   doc,
@@ -28,14 +28,38 @@ export async function ambilDaftarPelanggan() {
   const refDokumen = collection(basisdata, "pelanggan");
   const kueri = query(refDokumen, orderBy("nama"));
   const cuplikanKueri = await getDocs(kueri);
-  
+
   let hasilKueri = [];
   cuplikanKueri.forEach((dokumen) => {
     hasilKueri.push({
       id: dokumen.id,
       nama: dokumen.data().nama,
-      alamat: dokumen.data(). alamat, 
-      nohape: dokumen.data().nohape    
+      alamat: dokumen.data().alamat,
+      nohape: dokumen.data().nohape
+    })
+  })
+
+  return hasilKueri;
+}
+
+//inisialisasi firebase
+const aplikasi = initializeApp(firebaseConfig)
+const basisdata = getFirestore(aplikasi)
+
+// fungsi ambil daftar pelanggan
+export async function ambilDaftarPelanggan() {
+  const refDokumen = collection(basisdata, "pelanggan");
+  const kueri = query(refDokumen, orderBy("nama"));
+  const cuplikanKueri = await getDocs(kueri);
+  let hasilKueri = [];
+  
+  cuplikanKueri.forEach((dokumen) => {
+    hasilKueri.push({
+      id: dokumen.id,
+      nama: dokumen.data().nama,
+      alamat: dokumen.data().alamat,
+      nohape: dokumen.data().nohape
+      
     })
   })
   
