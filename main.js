@@ -23,25 +23,6 @@ const firebaseConfig = {
   measurementId: "G-1RSX6TCWZ2"
 };
 
-//fungsi ambil daftar pelanggan 
-export async function ambilDaftarPelanggan() {
-  const refDokumen = collection(basisdata, "pelanggan");
-  const kueri = query(refDokumen, orderBy("nama"));
-  const cuplikanKueri = await getDocs(kueri);
-
-  let hasilKueri = [];
-  cuplikanKueri.forEach((dokumen) => {
-    hasilKueri.push({
-      id: dokumen.id,
-      nama: dokumen.data().nama,
-      alamat: dokumen.data().alamat,
-      nohape: dokumen.data().nohape
-    })
-  })
-
-  return hasilKueri;
-}
-
 //inisialisasi firebase
 const aplikasi = initializeApp(firebaseConfig)
 const basisdata = getFirestore(aplikasi)
@@ -52,16 +33,32 @@ export async function ambilDaftarPelanggan() {
   const kueri = query(refDokumen, orderBy("nama"));
   const cuplikanKueri = await getDocs(kueri);
   let hasilKueri = [];
-  
+
   cuplikanKueri.forEach((dokumen) => {
     hasilKueri.push({
       id: dokumen.id,
       nama: dokumen.data().nama,
       alamat: dokumen.data().alamat,
       nohape: dokumen.data().nohape
-      
+
     })
   })
-  
+
   return hasilKueri;
+}
+export async function tambahInventory(nama, alamat, nohape) {
+  try {
+    // menyimpan data ke firebase
+    const refDokumen = await addDoc(collection(basisdata, "pelanggan"), {
+      nama: nama,
+      alamat: alamat,
+      nohape: nohape
+    })
+
+    // menampilkan pesan berhasil
+    console.log('berhasil menyimpan data pelanggan')
+  } catch (error) {
+    // menampilkan pesan gagal 
+    console.log('gagal menyimpan data pelanggan')
+  }
 }
