@@ -40,6 +40,8 @@
     <tbody>
     </tbody>
     </tablet>
+  
+   <p id ="total">Total Pelanggan </p>
     
     <a href="formtambah.html">Tambah Pelanggan</a>
 
@@ -49,9 +51,10 @@
   $(document).ready(async function() {
     let elemenDaftarPelanggan = $("#daftar-pelanggan > tbody");
     let daftarPelanggan = await ambilDaftarPelanggan();
-
-
+    
+   
     let nomor = 1
+    let total = 0
     daftarPelanggan.forEach((data) => {
       elemenDaftarPelanggan.append(
         "<tr>" +
@@ -62,9 +65,11 @@
         "<td>" + "<a href='#' class='me-2 link-ubah' data='" + data.id + "'>ubah</a><button class='btn btn-danger tombol-hapus' data='" + data.id + "'>hapus</button> " + "</td>" +
         "</tr>"
       )
-      nomor = nomor + 1
+       nomor = nomor + 1
+       
+       $('#total').html("jumlah pelanggan :" + (nomor - 1))
     })
-
+    
     $('.tombol-hapus').click(async function() {
       if (confirm("Apakah benar mau menghapus?")) {
         await hapusPelanggan($(this).attr('data'))
